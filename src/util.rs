@@ -54,6 +54,12 @@ pub fn is_key_down(key: i32) -> bool {
     (state & 0x8000) != 0
 }
 
+pub fn move_mouse_relative(dx: i32, dy: i32) {
+    use enigo::MouseControllable;
+    let mut e = enigo::Enigo::new();
+    e.mouse_move_relative(dx, dy);
+}
+
 #[derive(Clone, Debug)]
 pub struct Window {
     pub class: String,

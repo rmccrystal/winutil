@@ -4,12 +4,10 @@ use std::sync::mpsc::{Receiver, Sender, SendError};
 
 use lazy_static::lazy_static;
 use log::*;
-pub use win_key_codes::*;
-use winapi::um::winuser::GetKeyboardState;
+pub use winapi::um::winuser::*;
 
-use crate::winutil::get_keyboard_state;
+use super::get_keyboard_state;
 use std::time::Duration;
-use crate::get_keyboard_state;
 
 #[derive(Eq, PartialEq, Clone, Debug)]
 pub enum Event {
@@ -39,11 +37,11 @@ impl InputEventListener {
         Self { recv }
     }
 
-    pub fn is_key_down(&self, key: i32) -> bool {
+    pub fn is_key_down(key: i32) -> bool {
         KEYS_DOWN.lock().unwrap().contains(&key)
     }
 
-    pub fn get_keys_down(&self) -> Vec<i32> {
+    pub fn get_keys_down() -> Vec<i32> {
         KEYS_DOWN.lock().unwrap().clone()
     }
 
@@ -65,6 +63,15 @@ impl InputEventListener {
 
 /// Iterates through every event in the queue until there are none left
 impl Iterator for &InputEventListener {
+    type Item = Event;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.recv.try_recv().ok()
+    }
+}
+
+/// Iterates through every event in the queue until there are none left
+impl Iterator for &mut InputEventListener {
     type Item = Event;
 
     fn next(&mut self) -> Option<Self::Item> {

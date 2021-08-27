@@ -8,4 +8,7 @@ edition = "2018"
 [dependencies]
 log = "0.4.14"
 anyhow = "1.0.40"
-winapi = { version = "*", features = ["std", "memoryapi", "processthreadsapi", "tlhelp32", "ntdef", "handleapi", "windef", "winuser", "d3d11", "dxgi", "dxgitype", "dwmapi", "uxtheme", "d3d9caps", "synchapi", "wow64apiset", "wingdi"] }
+winapi = { version = "0.3.9", features = ["std", "memoryapi", "processthreadsapi", "tlhelp32", "ntdef", "handleapi", "windef", "winuser", "dxgi", "dxgitype", "dwmapi", "uxtheme", "synchapi", "wow64apiset", "wingdi"] }
+ntapi = "0.3.6"
+lazy_static = "1.4.0"
+enigo = "0.0.14"
