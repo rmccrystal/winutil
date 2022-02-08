@@ -59,6 +59,10 @@ impl InputEventListener {
             }
         }
     }
+
+    pub fn into_inner(self) -> Reciever<Event> {
+        self.recv
+    }
 }
 
 /// Iterates through every event in the queue until there are none left
