@@ -60,7 +60,7 @@ impl InputEventListener {
         }
     }
 
-    pub fn into_inner(self) -> Reciever<Event> {
+    pub fn into_inner(self) -> Receiver<Event> {
         self.recv
     }
 }
