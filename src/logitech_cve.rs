@@ -11,6 +11,7 @@ use ntapi::winapi::um::winnt::*;
 use anyhow::*;
 use super::ToError;
 use ntapi::ntzwapi::ZwClose;
+use core::result::Result::{Ok, Err};
 
 #[repr(C)]
 #[derive(Copy, Clone, Debug)]
