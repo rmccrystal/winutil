@@ -15,6 +15,7 @@ use widestring::U16CString;
 pub struct Process {
     pub pid: u32,
     pub name: String,
+    pub parent_pid: u32
 }
 
 pub fn get_process_list() -> Result<Vec<Process>> {
@@ -36,10 +37,12 @@ pub fn get_process_list() -> Result<Vec<Process>> {
                 // Construct the process name from the bytes in the szExeFile array
                 let name = super::c_char_array_to_string(entry.szExeFile.to_vec());
                 let pid = entry.th32ProcessID;
+                let parent_pid = entry.th32ParentProcessID;
 
                 process_list.push(Process {
                     name,
                     pid,
+                    parent_pid
                 })
             }
         }
@@ -126,11 +129,13 @@ pub fn get_module_list(process: impl memlib::MemoryRead + memlib::ProcessInfo) -
         if !list_entry.BaseDllName.Buffer.is_null()
             && !list_entry.DllBase.is_null()
             && list_entry.SizeOfImage != 0
+            && list_entry.BaseDllName.MaximumLength != 0
+            && process.try_read_bytes(list_entry.BaseDllName.Buffer as _, 1).is_some()
         {
             let name = list_entry.BaseDllName;
             let size = name.MaximumLength as usize;
 
-            let base_name = process.try_read_bytes(name.Buffer as u64, size)?;
+            let base_name = process.try_read_bytes(name.Buffer as u64, size).unwrap();
             let base_name = unsafe { U16CString::from_ptr_str(base_name.as_ptr() as _) };
 
             modules.push(Module {
