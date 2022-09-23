@@ -12,6 +12,5 @@ winapi = { version = "0.3.9", features = ["std", "memoryapi", "processthreadsapi
 ntapi = "0.3.7"
 lazy_static = "1.4.0"
 enigo = "0.0.14"
-memlib = { git = "https://github.com/rmccrystal/memlib-rs" }
-#memlib = { path = "../memlib-rs" }
+memlib = "0.1.0"
 widestring = { version = "0.5.1", default-features = false, features = ["alloc"] }

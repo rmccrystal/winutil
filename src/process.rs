@@ -99,7 +99,7 @@ pub fn get_peb_base(pid: u32) -> Option<u64> {
 }
 
 /// Returns the list of modules in a process
-pub fn get_module_list(process: impl memlib::MemoryRead + memlib::ProcessInfo) -> Option<Vec<memlib::Module>> {
+pub fn get_module_list(process: &impl memlib::MemoryRead + memlib::ProcessInfo) -> Option<Vec<memlib::Module>> {
     let peb_base = process.peb_base_address();
 
     // PEB and PEB_LDR_DATA
